@@ -45,7 +45,9 @@ app.get('/m/repos/:user/:repo/content/*', (req, res) => {
 		converter.setFlavor('github')
 		html = converter.makeHtml(text);
 
-		let output = minify(html, {
+		let css = `<link rel="stylesheet" href="/src/style.css" >${html}`
+
+		let output = minify(css, {
 			collapseWhitespace: true,
 			minifyJS: true
 		});
@@ -92,7 +94,6 @@ app.get('/d/repos/:user/:repo/content/*', (req, res) => {
 			minifyJS: true
 		});
 
-		res.write(`document.write(\`<link rel="stylesheet" href="/src/style.css" >\`);`);
 		res.write(`document.write(\`${output}\`);`);
 		res.end();
 	})

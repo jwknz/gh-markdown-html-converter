@@ -8,6 +8,8 @@ require('dotenv').load()
 
 const port = 80
 
+app.use('/src', express.static(path.join(__dirname, "src")))
+
 app.get('/', (req, res) => {
     res.send('You need to add your folder path');
 })
@@ -89,6 +91,7 @@ app.get('/d/repos/:user/:repo/content/*', (req, res) => {
 			minifyJS: true
 		});
 
+		res.write(`document.write(\`<link rel="stylesheet" href="/src/style.css" >\`);`);
 		res.write(`document.write(\`${output}\`);`);
 		res.end();
 	})

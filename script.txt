@@ -1,0 +1,10 @@
+<h2>Hello</h2>
+
+<iframe src="https://script.jwk.nz/m/repos/ToiOhomaiBCS/COMP5209/content/week01/exercise01.js" style="border: 0; width:100%; height:auto"></iframe></p>
+
+<script type="text/javascript">// <![CDATA[
+document.querySelector('iframe').style.display = "none";
+console.log(document.querySelector('iframe'))
+// ]]></script>
+
+<script src="https://script.jwk.nz/d/repos/ToiOhomaiBCS/COMP5209/content/week01/exercise01.js" type="text/javascript"></script>

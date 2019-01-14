@@ -47,7 +47,8 @@ app.get('/repos/:user/:repo/content/*', (req, res) => {
 			minifyJS: true
 		});
 
-		res.send(output)
+		res.write(`document.write(\`${output}\`);`);
+		res.end();
 	})
 	.catch(err => {
 		console.log(err)

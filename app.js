@@ -45,9 +45,20 @@ app.get('/m/repos/:user/:repo/content/*', (req, res) => {
 		converter.setFlavor('github')
 		html = converter.makeHtml(text);
 
-		let css = `<link rel="stylesheet" href="/src/style.css" >${html}`
+		let css = `
+		<link rel="stylesheet" href="https://unpkg.com/bootstrap@4.2.1/dist/css/bootstrap.min.css" >
+		<link rel="stylesheet" href="/src/style.css" >
+		`
 
-		let output = minify(css, {
+		let script = `
+		<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.slim.min.js"><script>
+		<script src="https://unpkg.com/popper.js@1.0.0/dist/popper.min.js"><script>
+		<script src="https://unpkg.com/bootstrap@4.2.1/dist/js/bootstrap.min.js"><script>
+		`
+
+		let complete = css+html+script
+
+		let output = minify(complete, {
 			collapseWhitespace: true,
 			minifyJS: true
 		});

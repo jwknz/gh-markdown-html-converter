@@ -34,7 +34,6 @@ services:
     depends_on: 
       - proxy_encrypt
       - proxy_main
-      - ns_db
     environment:
       VIRTUAL_HOST: "script.jwk.nz"
       LETSENCRYPT_HOST: "script.jwk.nz"

@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  proxy_main:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80" 
+      - "443:443"
+    volumes: 
+      - ${PWD}/certs:/etc/nginx/certs:ro
+      - data-store:/etc/nginx/vhost.d 
+      - data-store:/usr/share/nginx/html 
+      - /var/run/docker.sock:/tmp/docker.sock:ro 
+    labels: 
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    container_name: proxy_main
+
+  proxy_encrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    depends_on: 
+      - proxy_main
+    volumes: 
+      - ${PWD}/certs:/etc/nginx/certs:rw
+      - data-store:/etc/nginx/vhost.d 
+      - data-store:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro 
+    container_name: proxy_encrypt
+
+  gh_md_html: 
+    image: node:10.11.0
+    ports: 
+      - "80"
+      - "443"
+    depends_on: 
+      - proxy_encrypt
+      - proxy_main
+      - ns_db
+    environment:
+      VIRTUAL_HOST: "script.jwk.nz"
+      LETSENCRYPT_HOST: "script.jwk.nz"
+      LETSENCRYPT_EMAIL: "jwkranenburg@me.com"
+    volumes: 
+      - /root/gh-markdown-html-converter/:/app
+    container_name: gh_md_html
+    tty: true
+
+volumes:
+  data-store:
